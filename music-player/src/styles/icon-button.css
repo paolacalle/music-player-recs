@@ -81,8 +81,9 @@
 }
 
 .icon-button.lg {
-    padding: 12px;
+    padding: 20px;
     font-size: 16px;
+    margin: 0 8px;
 }
 
 /* hover effects -- makes the button lift */

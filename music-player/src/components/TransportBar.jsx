@@ -25,22 +25,22 @@ export default function TransportBar() {
     };
 
     return (
-        <div className="flex flex-col items-center gap-4 mt-8">
-        <div className="flex items-center justify-center gap-3">
-        <Previous onClick={() => console.log('prev')} />
+        <div className="flex flex-col items-center gap-8 mt-8">
+            <div className="flex items-center justify-center gap-12 mt-12">
+                <Previous onClick={() => console.log('prev')} />
 
-        {isPlaying
-        ? <Pause onClick={handlePlayPause} active />
-        : <Play  onClick={handlePlayPause} active />
-        }
+                {isPlaying
+                ? <Pause onClick={handlePlayPause} active />
+                : <Play  onClick={handlePlayPause} active />
+                }
 
-        <Next onClick={() => console.log('next')} />
-        </div>
+                <Next onClick={() => console.log('next')} />
+            </div>
 
-        {/* for debugging */}
-        <div className="text-xs opacity-70">
-        State: {isPlaying ? 'Playing' : 'Paused'}
-        </div>
+            {/* for debugging */}
+            <div className="text-xs opacity-70">
+            State: {isPlaying ? 'Playing' : 'Paused'}
+            </div>
         </div>
     );
 }
