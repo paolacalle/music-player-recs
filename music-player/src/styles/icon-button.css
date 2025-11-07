@@ -1,0 +1,166 @@
+
+/* variables that override icon-button styles */
+:root {
+    --btn-fg: #0b0b0f;
+    --btn-bg: rgba(255, 255, 255, 0.08);
+    --btn-hover-bg: rgba(255, 255, 255, 0.12);
+    --btn-bg-active: rgba(255, 255, 255, 0.22);
+    --btn-ring: rgba(99, 102, 241, 0.55); /* Indigo-500 with opacity */
+    --btn-blur: 8px;
+    --btn-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --btn-shadow-active: 0 2px 4px rgba(0, 0, 0, 0.28);
+}
+
+
+
+/* mood variants */
+
+[data-mood="happy"] {
+    --btn-bg: rgba(255, 223, 93, 0.1); /* light yellow */
+    --btn-hover-bg: rgba(255, 223, 93, 0.15);
+    --btn-bg-active: rgba(255, 223, 93, 0.25);
+    --btn-ring: rgba(255, 223, 93, 0.6);
+}
+
+[data-mood="sad"] {
+    --btn-bg: rgba(93, 144, 255, 0.1); /* light blue */
+    --btn-hover-bg: rgba(93, 144, 255, 0.15);
+    --btn-bg-active: rgba(93, 144, 255, 0.25);
+    --btn-ring: rgba(93, 144, 255, 0.6);
+}
+
+[data-mood="energetic"] {
+    --btn-bg: rgba(255, 93, 93, 0.1); /* light red */
+    --btn-hover-bg: rgba(255, 93, 93, 0.15);
+    --btn-bg-active: rgba(255, 93, 93, 0.25);
+    --btn-ring: rgba(255, 93, 93, 0.6);
+}
+
+[data-mood="relaxed"] {
+    --btn-bg: rgba(93, 255, 144, 0.1); /* light green */
+    --btn-hover-bg: rgba(93, 255, 144, 0.15);
+    --btn-bg-active: rgba(93, 255, 144, 0.25);
+    --btn-ring: rgba(93, 255, 144, 0.6);
+}
+
+/* base button */
+/* we use a variable for the background color */
+
+.icon-button {
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--btn-bg); 
+    color: var(--btn-fg);
+    backdrop-filter: blur(var(--btn-blur));
+    border-radius: 9999px;
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--btn-shadow);
+    cursor: pointer;
+    transition:
+        transform 140ms ease,
+        box-shadow 140ms ease,
+        background-color 140ms ease,
+        border-color 140ms ease,
+        color 140ms ease;
+    user-select: none;
+}
+
+/* sizes */
+.icon-button.sm {
+    padding: 8px;
+    font-size: 12px;
+}
+
+.icon-button.md {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.icon-button.lg {
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* hover effects -- makes the button lift */
+.icon-button:hover {
+    background: var(--btn-hover-bg);
+    transform: translateY(-1px);
+}
+.icon-button:active {
+    background: var(--btn-bg-active);
+    box-shadow: var(--btn-shadow-active);
+    transform: translateY(0);
+}
+
+/* focus ring */
+.icon-button:focus-visible {
+    outline: none;
+    box-shadow: 
+        0 0 0 3px var(--btn-ring),
+        var(--btn-shadow);
+}
+
+/* disabled state */
+.icon-button:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* active/selected state */
+/* like for shuffle is on */
+.icon-button.is-active {
+    background: var(--btn-bg-active);
+    box-shadow: var(--btn-shadow-active);
+}
+
+/* dark mode */
+.dark-surface {
+    --btn-fg: #ffffff;
+    --btn-bg: rgba(255, 255, 255, 0.08);
+    --btn-bg-hover: rgba(255, 255, 255, 0.12);
+    --btn-bg-active: rgba(255, 255, 255, 0.22);
+    --btn-ring: rgba(99, 102, 241, 0.55); /* Indigo-500 with opacity */
+}
+
+/* dark mode */
+.dark-surface[data-mood="happy"] {
+    --btn-bg: rgba(255, 223, 93, 0.1); /* light yellow */
+    --btn-hover-bg: rgba(255, 223, 93, 0.15);
+    --btn-bg-active: rgba(255, 223, 93, 0.25);
+    --btn-ring: rgba(255, 223, 93, 0.6);
+}
+
+.dark-surface[data-mood="sad"] {
+    --btn-bg: rgba(93, 144, 255, 0.1); /* light blue */
+    --btn-hover-bg: rgba(93, 144, 255, 0.15);
+    --btn-bg-active: rgba(93, 144, 255, 0.25);
+    --btn-ring: rgba(93, 144, 255, 0.6);
+}
+
+.dark-surface[data-mood="energetic"] {
+    --btn-bg: rgba(255, 93, 93, 0.1); /* light red */
+    --btn-hover-bg: rgba(255, 93, 93, 0.15);
+    --btn-bg-active: rgba(255, 93, 93, 0.25);
+    --btn-ring: rgba(255, 93, 93, 0.6);
+}
+
+.dark-surface[data-mood="relaxed"] {
+    --btn-bg: rgba(93, 255, 144, 0.1); /* light green */
+    --btn-hover-bg: rgba(93, 255, 144, 0.15);
+    --btn-bg-active: rgba(93, 255, 144, 0.25);
+    --btn-ring: rgba(93, 255, 144, 0.6);
+}
+
+/* reduced motion */
+/* used if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .icon-button { transition: background-color 140ms ease, box-shadow 140ms ease, border-color 140ms ease, color 140ms ease; }
+  .icon-button:hover,
+  .icon-button:active { transform: none; }
+}
