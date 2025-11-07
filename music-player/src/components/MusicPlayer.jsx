@@ -1,5 +1,6 @@
 import React from "react";
 import {Play, Pause, Next, Previous} from './IconButtons';
+import TransportBar from './TransportBar';
 
 const MusicPlayer = () => {
     return <div className ="music-player-container">
@@ -15,11 +16,8 @@ const MusicPlayer = () => {
             </div>
 
             {/* Controls */}
-            <div className="controls">
-                <Previous onClick={() => {}} />
-                <Play onClick={() => {}} />
-                <Next onClick={() => {}} />
-
+            <div className="controls-wrapper">
+                <TransportBar />
             </div>
         </div>
     </div>

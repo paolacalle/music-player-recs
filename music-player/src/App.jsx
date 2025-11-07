@@ -1,5 +1,7 @@
 import './App.css'
-import MusicPlayer from './components/MusicPlayer'
+import './styles/icon-button.css'
+import MusicPlayer from './components/MusicPlayer';
+
 
 function App() {
   return (
