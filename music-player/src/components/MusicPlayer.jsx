@@ -1,4 +1,5 @@
 import React from "react";
+import {Play, Pause, Next, Previous} from './IconButtons';
 
 const MusicPlayer = () => {
     return <div className ="music-player-container">
@@ -15,7 +16,10 @@ const MusicPlayer = () => {
 
             {/* Controls */}
             <div className="controls">
-                
+                <Previous onClick={() => {}} />
+                <Play onClick={() => {}} />
+                <Next onClick={() => {}} />
+
             </div>
         </div>
     </div>
