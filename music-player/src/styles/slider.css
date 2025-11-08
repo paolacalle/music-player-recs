@@ -1,0 +1,182 @@
+/* =========================
+   Progress / Volume Sliders
+   ========================= */
+
+:root {
+  --slider-track-h: 6px;                 /* track height */
+  --slider-thumb: 16px;                   /* thumb size */
+  --slider-radius: 9999px;
+
+  --c-track: rgba(255,255,255,0.18);      /* unplayed track */
+  --c-buffer: rgba(255,255,255,0.32);     /* buffered portion (optional) */
+  --c-fill:  #ee00ff;                     /* played fill */
+  --c-thumb: #ffffff;                     /* thumb color */
+  --c-ring:  rgba(238,0,255,0.55);        /* focus ring */
+  --c-shadow: 0 4px 16px rgba(0,0,0,0.25);
+
+  /* these are set inline by React */
+  --range-progress: 0%;                   /* played width */
+  --range-buffer:   0%;                   /* buffered width */
+}
+
+/* Base input – unify hit area */
+input[type="range"].progress-slider,
+input[type="range"].volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 100%;
+  height: max(var(--slider-track-h), var(--slider-thumb));
+  background: transparent;               /* we paint the track with pseudo elems */
+  cursor: pointer;
+  outline: none;
+}
+
+/* Remove default focus and provide custom ring */
+input[type="range"].progress-slider:focus-visible,
+input[type="range"].volume-slider:focus-visible {
+  outline: none;
+}
+
+/* =============== WebKit (Chrome, Edge, Safari) =============== */
+
+/* Make the actual track transparent; we draw below with ::before/::after */
+input[type="range"].progress-slider::-webkit-slider-runnable-track,
+input[type="range"].volume-slider::-webkit-slider-runnable-track {
+  height: var(--slider-track-h);
+  background: transparent;
+  border-radius: var(--slider-radius);
+}
+
+/* Unplayed track */
+input[type="range"].progress-slider::before,
+input[type="range"].volume-slider::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(50% - var(--slider-track-h) / 2);
+  height: var(--slider-track-h);
+  background: var(--c-track);
+  border-radius: var(--slider-radius);
+  pointer-events: none;
+}
+
+/* Buffered portion (optional; set --range-buffer inline to >0%) */
+input[type="range"].progress-slider::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(50% - var(--slider-track-h) / 2);
+  height: var(--slider-track-h);
+  width: var(--range-buffer);
+  background: var(--c-buffer);
+  border-radius: var(--slider-radius);
+  pointer-events: none;
+}
+
+/* Played fill sits on top of track (use box-shadow to add subtle glow) */
+input[type="range"].progress-slider::-webkit-slider-runnable-track {
+  box-shadow: inset 0 0 0 9999px transparent;
+}
+input[type="range"].progress-slider {
+  background-image:
+    linear-gradient(var(--c-fill), var(--c-fill));
+  background-size: var(--range-progress) var(--slider-track-h);
+  background-repeat: no-repeat;
+  background-position: left calc(50% - var(--slider-track-h)/2);
+}
+
+/* Thumb */
+input[type="range"].progress-slider::-webkit-slider-thumb,
+input[type="range"].volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border-radius: 50%;
+  background: var(--c-thumb);
+  border: 0;
+  box-shadow: var(--c-shadow);
+  margin-top: calc((var(--slider-track-h) - var(--slider-thumb)) / 2);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+
+/* Hover/Active */
+input[type="range"].progress-slider:hover::-webkit-slider-thumb,
+input[type="range"].volume-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.05);
+}
+input[type="range"].progress-slider:active::-webkit-slider-thumb,
+input[type="range"].volume-slider:active::-webkit-slider-thumb {
+  transform: scale(0.95);
+  background: #f7e6ff;
+}
+
+/* Focus ring (wrap with :focus-visible to avoid mouse click ring) */
+input[type="range"].progress-slider:focus-visible::-webkit-slider-thumb,
+input[type="range"].volume-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 4px var(--c-ring),
+    var(--c-shadow);
+}
+
+/* =============== Firefox =============== */
+
+input[type="range"].progress-slider::-moz-range-track,
+input[type="range"].volume-slider::-moz-range-track {
+  height: var(--slider-track-h);
+  background: var(--c-track);
+  border-radius: var(--slider-radius);
+}
+
+/* Played portion */
+input[type="range"].progress-slider::-moz-range-progress {
+  height: var(--slider-track-h);
+  background: var(--c-fill);
+  border-radius: var(--slider-radius);
+}
+
+/* Buffered (FF has no pseudo for buffer; optional: ignore or simulate) */
+
+/* Thumb */
+input[type="range"].progress-slider::-moz-range-thumb,
+input[type="range"].volume-slider::-moz-range-thumb {
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border-radius: 50%;
+  border: none;
+  background: var(--c-thumb);
+  box-shadow: var(--c-shadow);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+
+input[type="range"].progress-slider:hover::-moz-range-thumb,
+input[type="range"].volume-slider:hover::-moz-range-thumb { transform: scale(1.05); }
+input[type="range"].progress-slider:active::-moz-range-thumb,
+input[type="range"].volume-slider:active::-moz-range-thumb { transform: scale(0.95); background: #f7e6ff; }
+
+/* Focus ring (FF) */
+input[type="range"].progress-slider:focus-visible::-moz-range-thumb,
+input[type="range"].volume-slider:focus-visible::-moz-range-thumb {
+  box-shadow:
+    0 0 0 4px var(--c-ring),
+    var(--c-shadow);
+}
+
+/* =============== Disabled =============== */
+
+input[type="range"].progress-slider:disabled,
+input[type="range"].volume-slider:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+/* =============== Reduced Motion =============== */
+@media (prefers-reduced-motion: reduce) {
+  input[type="range"].progress-slider::-webkit-slider-thumb,
+  input[type="range"].volume-slider::-webkit-slider-thumb,
+  input[type="range"].progress-slider::-moz-range-thumb,
+  input[type="range"].volume-slider::-moz-range-thumb {
+    transition: none;
+  }
+}
