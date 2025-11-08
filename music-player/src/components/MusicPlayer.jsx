@@ -1,5 +1,6 @@
 import React from "react";
 import {Play, Pause, Next, Previous} from './IconButtons';
+import {MusicPlayerContent} from './MusicPlayerContent';
 import TransportBar from './TransportBar';
 
 const MusicPlayer = () => {
@@ -7,14 +8,19 @@ const MusicPlayer = () => {
         <h1>Music Player</h1>
         <div className="music-player-wrapper">
             {/* Music player UI elements will go here */}
-            <div className="music-player-content">
-                <img src='' alt='' className="music-cover" />
-                <div className="title-wrapper">
-                    <h2 className="track-title">Track Title</h2>
-                </div>
-                <p className="track-artist">Artist Name</p>
+            <div className="content-wrapper">
+                <MusicPlayerContent 
+                    coverURL="https://example.com/cover.jpg"
+                    trackTitle="Sample Track"
+                    trackArtist="Sample Artist"
+                    album="Sample Album"
+                    year="2024"
+                    isPlaying={true}
+                    currentTime={100}
+                    duration={240}
+                    onSeek={(time) => console.log(`Seeking to ${time} seconds`)}
+                />
             </div>
-
             {/* Controls */}
             <div className="controls-wrapper">
                 <TransportBar />
