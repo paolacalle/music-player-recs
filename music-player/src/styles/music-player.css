@@ -1,0 +1,120 @@
+/* ================
+   Music Player Shell
+   ================ */
+
+:root {
+  /* spacing & radii */
+  --mp-pad: 4rem;
+  --mp-gap: 1rem;
+  --mp-radius: 1%;
+
+  /* colors */
+  --mp-bg: rgba(255, 255, 255, 0.06);     /* card bg */
+  --mp-stroke: rgba(255, 255, 255, 0.12); /* borders */
+  --mp-surface: rgba(255, 255, 255, 0.04);
+  --mp-text: #ffffff;
+
+  /* accents (can be overridden per mood) */
+  --mp-accent: #ee00ff;
+  --mp-ring: rgba(238, 0, 255, 0.45);
+
+  /* shadows & blur */
+  --mp-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  --mp-blur: 10px;
+
+  /* widths */
+  --mp-max: 980px;
+}
+
+/* container centers everything on the page */
+.music-player-container {
+  color: var(--mp-text);
+  min-height: 100%;
+  border-radius: calc(var(--mp-radius) * 1.5 );
+  width: 100%;
+  display: grid;
+  place-items: start center;
+  padding: calc(var(--mp-pad) * 1) var(--mp-pad);
+  background:
+    radial-gradient(60% 60% at 20% 20%, rgba(238,0,255,0.08), transparent 70%),
+    radial-gradient(60% 60% at 80% 80%, rgba(0,150,255,0.08), transparent 70%),
+    linear-gradient(180deg, #0b0b11 0%, #0b0b11 100%);
+}
+
+.music-player-container h1 {
+  width: 100%;
+  max-width: var(--mp-max);
+  margin: 0 auto calc(var(--mp-pad) * 1.25); 
+  font-size: clamp(1.25rem, 1.2rem + 0.8vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
+}
+
+/* main card */
+.music-player-wrapper {
+  width: 100%;
+  max-width: var(--mp-max);
+  background: var(--mp-bg);
+  border: 1px solid var(--mp-stroke);
+  border-radius: var(--mp-radius);
+  backdrop-filter: blur(var(--mp-blur));
+  box-shadow: var(--mp-shadow);
+  overflow: clip;
+
+  display: grid;
+  grid-template-columns: 1fr; /* one column */
+  grid-template-rows: auto auto; /* content then controls */
+}
+
+/* content area (cover, title/artist, seek bar) */
+.content-wrapper {
+  padding: calc(var(--mp-pad) * 1.2);
+  background: linear-gradient(180deg, var(--mp-surface), transparent 60%);
+  /* separator handled on controls; leave this clean */
+  border-bottom: solid 1px transparent;
+}
+
+/* controls area (transport buttons) */
+.controls-wrapper {
+  padding: calc(var(--mp-pad) * 0.2);
+  border-top: 1px solid var(--mp-stroke); /* nice divider */
+}
+
+
+/* Title and artist */
+.content-wrapper h2 {
+  margin: 0 0 4px 0;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 700;
+}
+.content-wrapper p {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* Make inner flex rows (like your progress bar) breathe */
+.content-wrapper .flex,
+.controls-wrapper .flex {
+  gap: 0.75rem;
+}
+
+/* Focus rings for any interactive child (buttons, sliders) */
+.music-player-wrapper :where(button, input[type="range"]) {
+  outline: none;
+}
+.music-player-wrapper :where(button, input[type="range"]):focus-visible {
+  box-shadow: 0 0 0 3px var(--mp-ring);
+  border-radius: 12px;
+}
+
+/* Optional: mood overrides (set data-mood on .music-player-wrapper) */
+.music-player-wrapper[data-mood="chill"]  { --mp-accent: #60a5fa; --mp-ring: rgba(96,165,250,0.45); }
+.music-player-wrapper[data-mood="happy"]  { --mp-accent: #f59e0b; --mp-ring: rgba(245,158,11,0.45); }
+.music-player-wrapper[data-mood="dark"]   { --mp-accent: #8b5cf6; --mp-ring: rgba(139,92,246,0.45); }
+.music-player-wrapper[data-mood="energy"] { --mp-accent: #ef4444; --mp-ring: rgba(239,68,68,0.45); }
+
+/* Reduced motion: tone down shadows/animations if you add them later */
+@media (prefers-reduced-motion: reduce) {
+  .music-player-wrapper { transition: none; }
+}

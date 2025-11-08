@@ -36,8 +36,8 @@ export const ProgressBar = ({ currentTime = 0, duration = 0, onSeek, buffered = 
 
   // Render the progress bar with time indicators
   return (
-    <div className="flex items-center justify-center gap-4 w-full">
-      <span className="tabular-nums text-xs opacity-80 w-10 text-right">{formatTime(clampedTime)}</span>
+    <div className="container-flex items-center">
+      <span className="column">{formatTime(clampedTime)}</span>
 
       <input
         type="range"
@@ -52,7 +52,7 @@ export const ProgressBar = ({ currentTime = 0, duration = 0, onSeek, buffered = 
         aria-label="Seek"
       />
 
-      <span className="tabular-nums text-xs opacity-80 w-10">{formatTime(duration || 0)}</span>
+      <span className="column">{formatTime(duration || 0)}</span>
     </div>
   );
 };

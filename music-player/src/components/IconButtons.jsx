@@ -12,7 +12,7 @@ function IconButton({ Icon, onClick, label, className = '', disabled = false, ac
       size={size}
       className={`icon-button ${size} ${active ? 'is-active' : ''} ${className}`}
     >
-      <Icon className="w-7 h-7" />
+      <Icon className="w-10 h-10" />
     </button>
   );
 }

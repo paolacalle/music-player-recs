@@ -1,6 +1,5 @@
 import { Album } from "lucide-react";
 import React from "react";
-import { ProgressBar } from "./ProgressBar";
 
 export const MusicPlayerContent = ({ 
     coverURL, // link to the album cover image
@@ -21,11 +20,6 @@ export const MusicPlayerContent = ({
                 <p className="track-artist">{trackArtist}</p>
                 <p className="album-name">{album} ({year})</p>
             </div>
-            <ProgressBar 
-                currentTime={currentTime} 
-                duration={duration} 
-                onSeek={onSeek} 
-            />
         </div>
     );
 };

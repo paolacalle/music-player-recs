@@ -23,7 +23,11 @@ const MusicPlayer = () => {
             </div>
             {/* Controls */}
             <div className="controls-wrapper">
-                <TransportBar />
+                <TransportBar 
+                    currentTime={100}
+                    duration={240}
+                    onSeek={(time) => console.log(`Seeking to ${time} seconds`)}
+                />
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 
 :root {
   --slider-track-h: 6px;                 /* track height */
-  --slider-thumb: 16px;                   /* thumb size */
+  --slider-thumb: 12px;                   /* thumb size */
   --slider-radius: 9999px;
 
   --c-track: rgba(255,255,255,0.18);      /* unplayed track */
@@ -21,11 +21,13 @@
 
 /* Base input – unify hit area */
 input[type="range"].progress-slider,
-input[type="range"].volume-slider {
+input[type="range"].v olume-slider {
   -webkit-appearance: none;
   appearance: none;
   position: relative;
-  width: 100%;
+  width: 70%;
+  margin-left: 2%;
+  margin-right: 2%;
   height: max(var(--slider-track-h), var(--slider-thumb));
   background: transparent;               /* we paint the track with pseudo elems */
   cursor: pointer;

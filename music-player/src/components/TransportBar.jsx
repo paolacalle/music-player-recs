@@ -3,8 +3,11 @@
 import React, { useRef, useState } from 'react';
 import { Play, Pause, Next, Previous } from './IconButtons';
 import '../styles/icon-button.css'; // make sure this path is correct
+import { ProgressBar } from './ProgressBar';
 
-export default function TransportBar() {
+export default function TransportBar(
+    { currentTime = 0, duration = 0, onSeek }
+) {
     const [isPlaying, setIsPlaying] = useState(false); // current play state
     const audioRef = useRef(null); // ref to audio element (empty for now)
 
@@ -26,7 +29,7 @@ export default function TransportBar() {
 
     return (
         <div className="flex flex-col items-center gap-8 mt-8">
-            <div className="flex items-center justify-center gap-12 mt-12">
+            <div className="control-item icons-row">
                 <Previous onClick={() => console.log('prev')} />
 
                 {isPlaying
@@ -37,9 +40,18 @@ export default function TransportBar() {
                 <Next onClick={() => console.log('next')} />
             </div>
 
-            {/* for debugging */}
-            <div className="text-xs opacity-70">
+            {/* for debugging hidden
+            <div className="text-xs opacity-50">
             State: {isPlaying ? 'Playing' : 'Paused'}
+            </div> */}
+
+            {/* add the progress bar here */}
+            <div className="control-item lower-divider">
+                <ProgressBar 
+                    currentTime={currentTime} 
+                    duration={duration} 
+                    onSeek={onSeek} 
+                />
             </div>
         </div>
     );

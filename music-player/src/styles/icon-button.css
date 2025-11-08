@@ -12,7 +12,6 @@
 }
 
 
-
 /* mood variants */
 
 [data-mood="happy"] {
@@ -49,16 +48,17 @@
 .icon-button {
     -webkit-tap-highlight-color: transparent;
     appearance: none;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 4px solid rgba(255, 255, 255, 0.12);
     background: var(--btn-bg); 
     color: var(--btn-fg);
     backdrop-filter: blur(var(--btn-blur));
-    border-radius: 9999px;
+    border-radius: 90%;
     padding: 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--btn-shadow);
+    margin: 4%;
     cursor: pointer;
     transition:
         transform 140ms ease,
@@ -70,26 +70,39 @@
 }
 
 /* sizes */
+
+/* fallback for svg */
+.icon-button svg {
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+  /* Optional: tweak stroke thickness so small icons don’t look too thin */
+  stroke-width: var(--icon-stroke, 2);
+}
+
+/* based on the width */
 .icon-button.sm {
-    padding: 8px;
-    font-size: 12px;
+    padding: calc(8px * 1);
+    --icon-size: calc(10px * 1);
+    --icon-stroke: 1.5;
 }
 
 .icon-button.md {
-    padding: 10px;
-    font-size: 14px;
+    padding: calc(8px * 1.2);
+    --icon-size: calc(10px * 1.2);
+    --icon-stroke: 2;
 }
 
 .icon-button.lg {
-    padding: 20px;
-    font-size: 16px;
-    margin: 0 8px;
+    padding: calc(8px * 1.5);
+    --icon-size: calc(10px * 1.9);
+    --icon-stroke: 2.5;
 }
+
 
 /* hover effects -- makes the button lift */
 .icon-button:hover {
     background: var(--btn-hover-bg);
-    transform: translateY(-1px);
+    transform: translateY(-5px);
 }
 .icon-button:active {
     background: var(--btn-bg-active);
