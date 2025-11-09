@@ -4,7 +4,7 @@
 
 :root {
   /* spacing & radii */
-  --mp-pad: 4rem;
+  --mp-pad: 3rem;
   --mp-gap: 1rem;
   --mp-radius: 1%;
 
@@ -23,15 +23,16 @@
   --mp-blur: 10px;
 
   /* widths */
-  --mp-max: 980px;
+  --mp-max: 950px;
 }
 
 /* container centers everything on the page */
 .music-player-container {
+  margin-inline: auto;             /* force its own centering */
+  max-width: 980px;
   color: var(--mp-text);
   min-height: 100%;
   border-radius: calc(var(--mp-radius) * 1.5 );
-  width: 100%;
   display: grid;
   place-items: start center;
   padding: calc(var(--mp-pad) * 1) var(--mp-pad);
@@ -43,7 +44,7 @@
 
 .music-player-container h1 {
   width: 100%;
-  max-width: var(--mp-max);
+  max-width: 100%;
   margin: 0 auto calc(var(--mp-pad) * 1.25); 
   font-size: clamp(1.25rem, 1.2rem + 0.8vw, 1.75rem);
   font-weight: 700;
@@ -54,7 +55,7 @@
 /* main card */
 .music-player-wrapper {
   width: 100%;
-  max-width: var(--mp-max);
+  max-width: 100%;
   background: var(--mp-bg);
   border: 1px solid var(--mp-stroke);
   border-radius: var(--mp-radius);

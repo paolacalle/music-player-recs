@@ -58,7 +58,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: var(--btn-shadow);
-    margin: 4%;
+    margin: 1%;
     cursor: pointer;
     transition:
         transform 140ms ease,
