@@ -105,6 +105,86 @@ app.use("/spotify", async (req, res) => {
   }
 });
 
+async function fetchHTML(url) {
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118 Safari/537.36",
+      "Cookie": "CONSENT=YES+; SOCS=CAISNQgDEg.."
+    }
+  });
+  return await res.text();
+}
+
+async function asJSON(html, wantSec) {
+  // the best song is determined by how closely the duration matches
+  // this is fast and simple but fragile—YouTube could change their HTML structure at any time
+  console.log("Parsing YouTube HTML for video search results", { wantSec });
+  // turn html into JSON
+  const initialDataMatch = html.match(/var ytInitialData = (.*?});<\/script>/);
+  if (!initialDataMatch) return null;
+
+  const initialDataJson = initialDataMatch[1];
+  const initialData = JSON.parse(initialDataJson);
+
+  const videoItems =
+    initialData.contents.twoColumnSearchResultsRenderer.primaryContents
+      .sectionListRenderer.contents.flatMap(
+        (section) =>
+          section.itemSectionRenderer?.contents || []
+      )
+      .map((item) => item.videoRenderer)
+      .filter((vr) => vr !== undefined);
+
+  for (const video of videoItems) {
+    const videoId = video.videoId;
+    const lengthText = video.lengthText?.simpleText || "0:00";
+    const parts = lengthText.split(":").map(Number);
+    let durationSec = 0;
+    if (parts.length === 3) {
+      durationSec = parts[0] * 3600 + parts[1] * 60 + parts[2];
+    } else if (parts.length === 2) {
+      durationSec = parts[0] * 60 + parts[1];
+    } else if (parts.length === 1) {
+      durationSec = parts[0];
+    }
+
+    console.log(`Found videoId=${videoId} duration=${durationSec}s`);
+
+    if (wantSec === null || Math.abs(durationSec - wantSec) <= 10) {
+      return { videoId, durationSec };
+    }
+  }
+
+  return null;  
+}
+
+app.get("/yt/search", async (req, res) => {
+  console.log("YT search request:", req.query);
+  try {
+    const raw = (req.query.q || "").trim();
+    if (!raw) return res.status(400).json({ error: "Missing q" });
+
+    const wantSec = req.query.durationSec ? Number(req.query.durationSec) : null;
+    const searchUrl = `https://www.youtube.com/results?hl=en&gl=US&search_query=${encodeURIComponent(raw)}`;
+
+    // (use fetch/undici/axios—just make sure it's the absolute URL above)
+    const html = await fetchHTML(searchUrl); // your helper that GETs and returns text
+    const result = await asJSON(html, wantSec); // your helper that parses and finds a match
+
+    if (result) {
+      res.json(result);
+    } else {
+      res.status(404).json({ error: "No video found" });
+    }
+  } catch (e) {
+    console.error("YT search error:", e);
+    // Surface the message so you can see it in the client
+    res.status(500).json({ error: String(e?.message || e) });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
   console.log(`API_BASE_URL: ${API_BASE_URL}`);

@@ -4,6 +4,7 @@ import {MusicPlayerContent} from './MusicPlayerContent';
 import TransportBar from './TransportBar';
 import {fetchTrackBySearch} from './AudioPlayerProvider';
 import SearchBar from "./SearchBar";
+import YouTubeAudio from "./YoutubeAudio";
 
 const MusicPlayer = () => {
     const [track, setTrack] = React.useState(null); // current track state
@@ -25,6 +26,11 @@ const MusicPlayer = () => {
         <div className="search-wrapper">
             <SearchBar onSearch={loadTrack} />
         </div>
+        <YouTubeAudio
+            query={track ? `${track.trackTitle} ${track.trackArtist} official audio` : ""}
+            durationSec={track ? Math.round((track.duration_ms ?? track.duration ?? 0) / 1000) : 0}
+        />
+
         <div className="music-player-wrapper">
             {/* Music player UI elements will go here */}
             <div className="content-wrapper">
@@ -45,7 +51,7 @@ const MusicPlayer = () => {
             <div className="controls-wrapper">
                 <TransportBar 
                     currentTime={100}
-                    duration={240}
+                    duration={track?.duration}
                     onSeek={(time) => console.log(`Seeking to ${time} seconds`)}
                 />
             </div>

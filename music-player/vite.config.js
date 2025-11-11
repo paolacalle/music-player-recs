@@ -9,7 +9,8 @@ export default defineConfig({
     proxy: {
       '/auth':   { target: 'http://localhost:8888', changeOrigin: true },
       '/spotify':{ target: 'http://localhost:8888', changeOrigin: true },
-      '/health': { target: 'http://localhost:8888', changeOrigin: true }
+      '/health': { target: 'http://localhost:8888', changeOrigin: true },
+      '/yt/search':      { target: 'http://localhost:8888', changeOrigin: true}
     }
   }
 })
