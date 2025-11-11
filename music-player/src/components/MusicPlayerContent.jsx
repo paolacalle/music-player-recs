@@ -10,7 +10,7 @@ export const MusicPlayerContent = ({
     isPlaying, // playback status
     currentTime, // current playback time
     duration, // total track duration
-    onSeek // function to handle seeking
+    onSeek, // function to handle seeking
 }) => {
     return (
         <div className="music-player-content">
