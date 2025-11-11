@@ -3,8 +3,9 @@ import {Play, Pause, Next, Previous} from './IconButtons';
 import {MusicPlayerContent} from './MusicPlayerContent';
 import TransportBar from './TransportBar';
 import {fetchTrackBySearch} from './AudioPlayerProvider';
+import SearchBar from "./SearchBar";
 
-const MusicPlayer = ({ searchTerm }) => {
+const MusicPlayer = () => {
     const [track, setTrack] = React.useState(null); // current track state
 
     const loadTrack = async (searchTerm) => {
@@ -12,26 +13,29 @@ const MusicPlayer = ({ searchTerm }) => {
         setTrack(fetchedTrack);
     };
 
-    // hardcoded for demo purposes
+    // preload a default track on mount
     React.useEffect(() => {
-        loadTrack(searchTerm);
+        loadTrack("Never Gonna Give You Up");
     }, []);
 
     // console.log("Current Track:", track);
 
     return <div className ="music-player-container">
         <h1>Music Player</h1>
+        <div className="search-wrapper">
+            <SearchBar onSearch={loadTrack} />
+        </div>
         <div className="music-player-wrapper">
             {/* Music player UI elements will go here */}
             <div className="content-wrapper">
-                <MusicPlayerContent 
-                    trackTitle ={track?.trackTitle}
-                    trackArtist ={track?.trackArtist}
-                    album ={track?.album}
-                    year ={track?.year}
-                    coverURL ={track?.coverURL}
-                    duration ={track?.duration}
-                    audioURL ={track?.audioURL}
+                <MusicPlayerContent
+                    trackTitle={track?.trackTitle}
+                    trackArtist={track?.trackArtist}
+                    album={track?.album}
+                    year={track?.year}
+                    coverURL={track?.coverURL}
+                    duration={track?.duration}
+                    audioURL={track?.audioURL}
                     isPlaying={true}
                     currentTime={100}
                     onSeek={(time) => console.log(`Seeking to ${time} seconds`)}
