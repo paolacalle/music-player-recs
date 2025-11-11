@@ -26,10 +26,6 @@ const MusicPlayer = () => {
         <div className="search-wrapper">
             <SearchBar onSearch={loadTrack} />
         </div>
-        <YouTubeAudio
-            query={track ? `${track.trackTitle} ${track.trackArtist} official audio` : ""}
-            durationSec={track ? Math.round((track.duration_ms ?? track.duration ?? 0) / 1000) : 0}
-        />
 
         <div className="music-player-wrapper">
             {/* Music player UI elements will go here */}
@@ -49,10 +45,9 @@ const MusicPlayer = () => {
             </div>
             {/* Controls */}
             <div className="controls-wrapper">
-                <TransportBar 
-                    currentTime={100}
-                    duration={track?.duration}
-                    onSeek={(time) => console.log(`Seeking to ${time} seconds`)}
+                <YouTubeAudio
+                    query={track ? `${track.trackTitle} ${track.trackArtist} official audio` : ""}
+                    durationSec={track ? Math.round((track.duration_ms ?? track.duration ?? 0) / 1000) : 0}
                 />
             </div>
         </div>

@@ -1,33 +1,35 @@
 import { useEffect, useState, useRef } from "react";
 import YouTube from "react-youtube";
+import TransportBar from './TransportBar';
 
 export default function YouTubeAudio({ query, durationSec }) {
   const [videoId, setVideoId] = useState(null);
   const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // loading state
   const playerRef = useRef(null);
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     const q = (query ?? "").trim();
     if (!q) {
-      setVideoId(null);
-      setErr("");
-      return;
+        setVideoId(null);
+        setErr("");
+        return;
     }
 
     const ac = new AbortController();
     const run = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // start loading state
         setErr("");
 
         const params = new URLSearchParams({
-          q,
-          ...(durationSec ? { durationSec: String(durationSec) } : {})
+            q,
+            ...(durationSec ? { durationSec: String(durationSec) } : {}) // optional
         });
 
         const r = await fetch(`/yt/search?${params.toString()}`, {
-          signal: ac.signal
+            signal: ac.signal
         });
         const data = await r.json().catch(() => ({}));
 
@@ -35,17 +37,19 @@ export default function YouTubeAudio({ query, durationSec }) {
         if (!data.videoId) throw new Error(data.error || "No match");
 
         setVideoId(data.videoId);
+        setDuration(data.durationSec || 0);
       } catch (e) {
         if (e.name !== "AbortError") {
-          setVideoId(null);
-          setErr(e.message || "Lookup failed");
+            setVideoId(null);
+            setDuration(0);
+            setErr(e.message || "Lookup failed");
         }
       } finally {
-        setLoading(false);
+            setLoading(false);
       }
     };
 
-    run();
+    run(); // invoke the async function
     return () => ac.abort();
   }, [query, durationSec]);
 
@@ -54,20 +58,26 @@ export default function YouTubeAudio({ query, durationSec }) {
 
   return (
     <div className="w-full max-w-[720px]">
-      <YouTube
+        <YouTube
         videoId={videoId}
         opts={{
-          width: "100%",
-          height: "64", // slim “audio bar”
-          playerVars: { enablejsapi: 1, modestbranding: 1, rel: 0, controls: 1, iv_load_policy: 3 }
+            width: "0%",
+            height: "0", // slim “audio bar”
+            playerVars: { enablejsapi: 1, modestbranding: 1, rel: 0, controls: 1, iv_load_policy: 3 }
         }}
         onReady={(e) => { playerRef.current = e.target; }}
-      />
-      <div className="flex gap-2 mt-2">
-        <button onClick={() => playerRef.current?.playVideo()}>Play</button>
-        <button onClick={() => playerRef.current?.pauseVideo()}>Pause</button>
-        <button onClick={() => playerRef.current?.seekTo(0, true)}>↺</button>
-      </div>
+        />
+        <TransportBar 
+            ref={playerRef}
+            currentTime={0} 
+            duration={duration}
+            onSeek={(time) => {
+                if (playerRef.current) {
+                    playerRef.current.seekTo(time, true);
+                }
+            }} 
+        />
+
     </div>
   );
 }

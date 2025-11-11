@@ -169,8 +169,8 @@ app.get("/yt/search", async (req, res) => {
     const searchUrl = `https://www.youtube.com/results?hl=en&gl=US&search_query=${encodeURIComponent(raw)}`;
 
     // (use fetch/undici/axios—just make sure it's the absolute URL above)
-    const html = await fetchHTML(searchUrl); // your helper that GETs and returns text
-    const result = await asJSON(html, wantSec); // your helper that parses and finds a match
+    const html = await fetchHTML(searchUrl);
+    const result = await asJSON(html, wantSec); 
 
     if (result) {
       res.json(result);
@@ -179,7 +179,6 @@ app.get("/yt/search", async (req, res) => {
     }
   } catch (e) {
     console.error("YT search error:", e);
-    // Surface the message so you can see it in the client
     res.status(500).json({ error: String(e?.message || e) });
   }
 });
