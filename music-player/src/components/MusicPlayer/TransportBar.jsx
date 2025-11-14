@@ -2,7 +2,7 @@
 // 'use client'
 import React, { useRef, useState } from 'react';
 import { Play, Pause, Next, Previous } from './IconButtons';
-import '../styles/icon-button.css'; // make sure this path is correct
+import '../../styles/icon-button.css'; // make sure this path is correct
 import { ProgressBar } from './ProgressBar';
 
 export default function TransportBar(

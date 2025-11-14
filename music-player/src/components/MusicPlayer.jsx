@@ -1,10 +1,10 @@
 import React from "react";
-import {Play, Pause, Next, Previous} from './IconButtons';
-import {MusicPlayerContent} from './MusicPlayerContent';
-import TransportBar from './TransportBar';
-import {fetchTrackBySearch} from './AudioPlayerProvider';
-import SearchBar from "./SearchBar";
-import YouTubeAudio from "./YoutubeAudio";
+import {Play, Pause, Next, Previous} from './MusicPlayer/IconButtons';
+import {MusicPlayerContent} from './MusicPlayer/MusicPlayerContent';
+import TransportBar from './MusicPlayer/TransportBar';
+import {fetchTrackBySearch} from './MusicPlayer/AudioPlayerProvider';
+import SearchBar from "./MusicPlayer/SearchBar";
+import YouTubeAudio from "./MusicPlayer/YoutubeAudio";
 
 const MusicPlayer = () => {
     const [track, setTrack] = React.useState(null); // current track state

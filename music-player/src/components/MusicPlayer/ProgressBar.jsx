@@ -1,6 +1,6 @@
 // ProgressBar.jsx
 import React from "react";
-import '../styles/slider.css';
+import '../../styles/slider.css';
 
 function formatTime(seconds = 0) {
   const mins = Math.floor(seconds / 60);

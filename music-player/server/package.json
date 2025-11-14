@@ -4,8 +4,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "node spotify_server.mjs",
-    "start": "node spotify_server.mjs"
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
   },
   "dependencies": {
     "axios": "^1.7.7",
