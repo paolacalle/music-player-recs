@@ -14,6 +14,7 @@ import youtubeRouter from "./routes/youtube.mjs";
 // load env vars
 
 dotenv.config();
+const app = express();
 
 const {
   ALLOW_ORIGIN,
