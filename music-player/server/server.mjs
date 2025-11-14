@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+// import 
 
 dotenv.config();
 
@@ -16,10 +17,13 @@ const {
   API_BASE_URL = "https://api.spotify.com/v1",
 } = process.env;
 
+// This is an Express server that provides backend services for a music player application.
+// It includes endpoints for Spotify authentication via the Client Credentials Flow,
+// a generic Spotify API proxy, and YouTube video search functionality.
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json()); // parse JSON bodies
+app.use(cookieParser()); // parse cookies
 app.use(
   cors({
     origin: ALLOW_ORIGIN || "http://localhost:5173",
@@ -124,6 +128,7 @@ async function asJSON(html, wantSec) {
   const initialDataMatch = html.match(/var ytInitialData = (.*?});<\/script>/);
   if (!initialDataMatch) return null;
 
+
   const initialDataJson = initialDataMatch[1];
   const initialData = JSON.parse(initialDataJson);
 
@@ -168,9 +173,12 @@ app.get("/yt/search", async (req, res) => {
     const wantSec = req.query.durationSec ? Number(req.query.durationSec) : null;
     const searchUrl = `https://www.youtube.com/results?hl=en&gl=US&search_query=${encodeURIComponent(raw)}`;
 
+    console.log("Fetching YouTube search URL:", searchUrl);
+
     // (use fetch/undici/axios—just make sure it's the absolute URL above)
     const html = await fetchHTML(searchUrl);
     const result = await asJSON(html, wantSec); 
+
 
     if (result) {
       res.json(result);

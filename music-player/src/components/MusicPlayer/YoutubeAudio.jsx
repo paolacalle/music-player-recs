@@ -3,13 +3,22 @@ import YouTube from "react-youtube";
 import TransportBar from './TransportBar';
 
 export default function YouTubeAudio({ query, durationSec }) {
+  // params: query (string), durationSec (number)
+  // query is the search term to find the YouTube video
+  // durationSec is optional, used to filter results by duration
+
+  // state variables
   const [videoId, setVideoId] = useState(null);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false); // loading state
   const playerRef = useRef(null);
   const [duration, setDuration] = useState(0);
+  
+  console.log("YouTubeAudio Props:", { query, durationSec });
 
+  // useEffect to fetch video ID based on query
   useEffect(() => {
+    // runs whenever query or durationSec changes
     const q = (query ?? "").trim();
     if (!q) {
         setVideoId(null);
@@ -61,8 +70,8 @@ export default function YouTubeAudio({ query, durationSec }) {
         <YouTube
         videoId={videoId}
         opts={{
-            width: "0%",
-            height: "0", // slim “audio bar”
+            width: "100%",
+            height: "64", // slim “audio bar”
             playerVars: { enablejsapi: 1, modestbranding: 1, rel: 0, controls: 1, iv_load_policy: 3 }
         }}
         onReady={(e) => { playerRef.current = e.target; }}

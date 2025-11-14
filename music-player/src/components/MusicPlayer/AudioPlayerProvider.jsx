@@ -44,6 +44,7 @@ export const fetchTrackBySearch = async (trackName) => {
         }
     });
     const data = await response.json();
+    console.log("Search Track Data:", data);
 
     return parseData(data.tracks.items[0]);
 };
