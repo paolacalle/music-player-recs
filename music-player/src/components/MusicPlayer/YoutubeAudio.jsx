@@ -70,8 +70,8 @@ export default function YouTubeAudio({ query, durationSec }) {
         <YouTube
         videoId={videoId}
         opts={{
-            width: "100%",
-            height: "64", // slim “audio bar”
+            width: "0%",
+            height: "0", // slim “audio bar”
             playerVars: { enablejsapi: 1, modestbranding: 1, rel: 0, controls: 1, iv_load_policy: 3 }
         }}
         onReady={(e) => { playerRef.current = e.target; }}

@@ -22,7 +22,6 @@ const MusicPlayer = () => {
     // console.log("Current Track:", track);
 
     return <div className ="music-player-container">
-        <h1>Music Player</h1>
         <div className="search-wrapper">
             <SearchBar onSearch={loadTrack} />
         </div>

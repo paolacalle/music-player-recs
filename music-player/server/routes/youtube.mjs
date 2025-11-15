@@ -1,6 +1,15 @@
 // server/routes/youtube.mjs
 import { Router } from "express";
 import { fetchHTML, findBestVideo } from "../lib/youtubeSearch.mjs";
+import dotenv from "dotenv";
+import crypto from "crypto"; // for generating random state strings
+
+dotenv.config();
+
+const { YOUTUBE_CLIENT_ID } = process.env;
+
+// This router handles YouTube-related API endpoints,
+// including search functionalities and login flow.
 
 const router = Router();
 
@@ -47,5 +56,41 @@ router.get("/yt/search", async (req, res) => {
         res.status(500).json({ error: String(e?.message || e) });
     }
 });
+
+// youtube login route
+router.get("/yt/login", (req, res) => {
+    console.log("Initiating YouTube login flow");
+    const state = crypto.randomBytes(16).toString("hex");
+
+    // configure for https
+    res.cookie("youtube_auth_state", state, {
+        // httpOnly: true,
+        sameSite: "lax",
+        // secure: process.env.NODE_ENV === "production",
+    });
+
+    const scopes = [
+        "https://www.googleapis.com/auth/youtube.readonly",
+        "https://www.googleapis.com/auth/youtube.force-ssl",
+    ].join(" ");
+
+    const params = new URLSearchParams({
+        response_type: "code",
+        redirect_uri: process.env.YOUTUBE_REDIRECT_URI,
+        scope: scopes,
+        state,
+        client_id: YOUTUBE_CLIENT_ID,
+    });
+
+    const authorizeUrl = `https://accounts.google.com/o/oauth2/auth?${params.toString()}`;
+
+    try {
+        console.log("Redirecting to YouTube authorize URL:", authorizeUrl);
+        res.redirect(authorizeUrl);
+    } catch (err) {
+        console.error("Error constructing YouTube authorize URL:", err);
+    }
+});
+
 
 export default router;
